@@ -130,13 +130,3 @@
  	  CC="@CC@" ; export CC ; MAKE="${MAKE}" ; export MAKE ; \
  	  ${top_srcdir}/mpid/server/configure ; $(MAKE) serv_p4 ; \
  	  cp serv_p4 $(binbuild_dir) )
---- mpich-1.2.5/mpid/ch_p4/setup_ch_p4.orig	Fri Aug 18 21:45:14 2000
-+++ mpich-1.2.5/mpid/ch_p4/setup_ch_p4	Wed May 30 05:11:02 2001
-@@ -253,6 +253,7 @@
- echo "Configuring new p4 secure server"
- (cd mpid/server ; \
-     CC="$CC" ; export CC ; \
-+    CFLAGS="$OPTFLAGS"; export CFLAGS ; \
-     "$top_srcdir/mpid/server/configure" )
- if test $? != 0 ; then
-     print_error "Configure of the secure server may have failed!"
