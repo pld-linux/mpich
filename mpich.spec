@@ -3,12 +3,13 @@ Summary(pl):	Przeno¶na implementacja standardu MPI
 Name:		mpich
 Version:	1.2.5
 %define	pver	1a
-Release:	%{pver}.1
+Release:	%{pver}.2
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}-%{pver}.tar.gz
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
+Patch2:		http://squishy.monkeysoft.net/%{name}/%{name}-%{version}-oM.patch
 URL:		http://www-unix.mcs.anl.gov/mpi/
 BuildRequires:	gcc-g77
 BuildRequires:	libstdc++-devel
@@ -29,6 +30,7 @@ czê¶ci wersji MPI-2, szczególnie w zakresie równoleg³ej komunikacji.
 %setup -q
 %patch0 -p1
 %patch1	-p1
+%patch2	-p1
 
 %build
 # note: can't run autoconf - we must patch configure not only configure.in
