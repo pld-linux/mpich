@@ -1,16 +1,15 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl):	Przeno¶na implementacja standardu MPI
 Name:		mpich
-Version:	1.2.5
-%define	pver	1a
-Release:	%{pver}.2
+Version:	1.2.5.2
+Release:	1
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
-Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}-%{pver}.tar.gz
-# Source0-md5:	b4557d284e41a2a5a682cd69128cac89
+Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.gz
+# Source0-md5:	9a7524c220eeb3f080069308bab9f487
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
-Patch2:		http://squishy.monkeysoft.net/%{name}/%{name}-%{version}-oM.patch
+Patch2:		http://squishy.monkeysoft.net/mpich/%{name}-1.2.5-oM.patch
 URL:		http://www-unix.mcs.anl.gov/mpi/
 BuildRequires:	gcc-g77
 BuildRequires:	libstdc++-devel
