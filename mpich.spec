@@ -7,6 +7,7 @@ Release:	%{pver}.2
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}-%{pver}.tar.gz
+# Source0-md5:	b4557d284e41a2a5a682cd69128cac89
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
 Patch2:		http://squishy.monkeysoft.net/%{name}/%{name}-%{version}-oM.patch
