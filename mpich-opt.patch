@@ -57,9 +57,9 @@
  fi
  
  
---- mpich-1.2.5/configure.in.orig	Tue Aug 29 23:52:53 2000
-+++ mpich-1.2.5/configure.in	Tue May 29 23:05:24 2001
-@@ -3075,6 +3075,8 @@
+--- mpich-1.2.5.3/configure.in.orig	2004-04-05 15:48:47.000000000 +0200
++++ mpich-1.2.5.3/configure.in	2004-07-04 13:39:28.170198120 +0200
+@@ -3510,6 +3510,8 @@
    export TESTCC ;\
    export TESTF77 ;\
    export TESTF90 ;\
@@ -68,18 +68,15 @@
    export mpich_includes ;\
    export LIB_PATH ;\
    export BASE_LIB_LIST ;\
-@@ -3193,8 +3193,8 @@
- 	    -mpibindir=$binbuild_dir \
-             -mpilib=$libbuild_dir/lib$MPILIBNAME.a \
-             -mpiolib=$libbuild_dir/lib$MPILIBNAME.a \
--            -cc="$CC" -cflags="$ROMIO_CFLAGS $CC_SHARED_OPT" \
--            -fc="$F77" -fflags="$ROMIO_FFLAGS $FC_SHARED_OPT" \
-+            -cc="$CC" -cflags="$ROMIO_CFLAGS $CC_SHARED_OPT $OPTFLAGSC $OPTFLAGS" \
-+            -fc="$F77" -fflags="$ROMIO_FFLAGS $FC_SHARED_OPT $OPTFLAGSF $OPTFLAGS" \
- 	    -f90="$F90" $romio_config_args $enable_args $with_args )
-   /bin/rm -f include/mpio.h ${top_srcdir}/include/mpio.h
-   cp romio/include/mpio.h include
-@@ -3270,6 +3270,7 @@
+@@ -3684,6 +3686,7 @@
+   export FROM_MPICH;\
+   export int_len ; export void_star_len ; export OFFSET_KIND ; \
+   export long_long_len ; \
++  CFLAGS="$OPTFLAGSC $OPTFLAGS" ; export CFLAGS ; \
+   "${top_srcdir}/romio/configure" $ROMIO_ARGS $ROMIO_FILE_SYSTEM \
+             --with-mpi=mpich $romio_config_args $enable_args $with_args )
+   rc=$?
+@@ -3773,6 +3776,7 @@
                                    --prefix=${prefix} $enable_args $with_args \
                                    --libdir=${libdir} --bindir=${bindir} \
  				  --includedir=${includedir} \
@@ -87,9 +84,9 @@
  				  $MPE_ARGS )
      if test $? = 0 ; then
          echo "Done configuring MPE Profiling Libraries" ; echo
---- mpich-1.2.5/configure.orig	Tue Aug 29 23:52:24 2000
-+++ mpich-1.2.5/configure	Tue May 29 23:09:00 2001
-@@ -13517,6 +13517,8 @@
+--- mpich-1.2.5.3/configure.orig	2004-04-07 19:26:01.000000000 +0200
++++ mpich-1.2.5.3/configure	2004-07-04 13:40:20.934176776 +0200
+@@ -15634,6 +15634,8 @@
    export TESTCC ;\
    export TESTF77 ;\
    export TESTF90 ;\
@@ -98,18 +95,15 @@
    export mpich_includes ;\
    export LIB_PATH ;\
    export BASE_LIB_LIST ;\
-@@ -13723,8 +13723,8 @@
- 	    -mpibindir=$binbuild_dir \
-             -mpilib=$libbuild_dir/lib$MPILIBNAME.a \
-             -mpiolib=$libbuild_dir/lib$MPILIBNAME.a \
--            -cc="$CC" -cflags="$ROMIO_CFLAGS $CC_SHARED_OPT" \
--            -fc="$F77" -fflags="$ROMIO_FFLAGS $FC_SHARED_OPT" \
-+            -cc="$CC" -cflags="$ROMIO_CFLAGS $CC_SHARED_OPT $OPTFLAGSC $OPTFLAGS" \
-+            -fc="$F77" -fflags="$ROMIO_FFLAGS $FC_SHARED_OPT $OPTFLAGSF $OPTFLAGS" \
- 	    -f90="$F90" $romio_config_args $enable_args $with_args )
-   /bin/rm -f include/mpio.h ${top_srcdir}/include/mpio.h
-   cp romio/include/mpio.h include
-@@ -13800,6 +13800,7 @@
+@@ -15900,6 +15902,7 @@
+   export FROM_MPICH;\
+   export int_len ; export void_star_len ; export OFFSET_KIND ; \
+   export long_long_len ; \
++  CFLAGS="$OPTFLAGSC $OPTFLAGS" ; export CFLAGS ; \
+   "${top_srcdir}/romio/configure" $ROMIO_ARGS $ROMIO_FILE_SYSTEM \
+             --with-mpi=mpich $romio_config_args $enable_args $with_args )
+   rc=$?
+@@ -15994,6 +15997,7 @@
                                    --prefix=${prefix} $enable_args $with_args \
                                    --libdir=${libdir} --bindir=${bindir} \
  				  --includedir=${includedir} \
@@ -117,8 +111,8 @@
  				  $MPE_ARGS )
      if test $? = 0 ; then
          echo "Done configuring MPE Profiling Libraries" ; echo
---- mpich-1.2.5/Makefile.in.orig	Tue Sep  5 22:06:05 2000
-+++ mpich-1.2.5/Makefile.in	Wed May 30 01:07:43 2001
+--- mpich-1.2.5.3/Makefile.in.orig	Tue Sep  5 22:06:05 2000
++++ mpich-1.2.5.3/Makefile.in	Wed May 30 01:07:43 2001
 @@ -327,7 +327,7 @@
  	CC="@CC@" ; export CC ; \
  	ldir=`echo $(libdir) | sed -e 's%$(MPIR_HOME)/%%g'` ; \
@@ -131,7 +125,7 @@
 @@ -467,6 +467,7 @@
  serv_p4 server:
  	@if [ ! -d mpid/server ] ; then mkdir mpid/server ; fi
- 	@( cd mpid/server ; rm -f config.cache ; \
+ 	@( cd mpid/server && rm -f config.cache ; \
 +	  CFLAGS="@OPTFLAGSC@ @OPTFLAGS@"; export CFLAGS ; \
  	  CC="@CC@" ; export CC ; MAKE="${MAKE}" ; export MAKE ; \
  	  ${top_srcdir}/mpid/server/configure ; $(MAKE) serv_p4 ; \
@@ -146,281 +140,3 @@
      "$top_srcdir/mpid/server/configure" )
  if test $? != 0 ; then
      print_error "Configure of the secure server may have failed!"
---- mpich-1.2.5/romio/configure.in.orig	Mon Jan 13 22:55:57 2003
-+++ mpich-1.2.5/romio/configure.in	Sat Apr  5 11:05:59 2003
-@@ -505,8 +505,8 @@
-     USER_CFLAGS="$CFLAGS -g"
-     USER_FFLAGS="$FFLAGS -g"
- else
--    USER_CFLAGS="$CFLAGS -O"
--    USER_FFLAGS="$FFLAGS -O"
-+    USER_CFLAGS="$CFLAGS"
-+    USER_FFLAGS="$FFLAGS"
- fi
- #
- if test -n "$arch_sun4" ; then 
-@@ -515,14 +515,14 @@
-     if test $DEBUG = "yes"; then
- 	if test "$CC" = "gcc"; then
-            dnl CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes -DAIO_SUN"
--           CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes"
-+           CFLAGS="$CFLAGS -g -Wall -Wstrict-prototypes -Wmissing-prototypes"
- 	else
-            dnl CFLAGS="$CFLAGS -g -DAIO_SUN"
-            CFLAGS="$CFLAGS -g"
-         fi
-     else 
-         dnl CFLAGS="$CFLAGS -O -DAIO_SUN"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     if test "$enable_aio" = "no" ; then
-         AC_DEFINE(NO_AIO)
-@@ -547,14 +547,14 @@
-     if test $DEBUG = "yes"; then
-         if test "$CC" = "gcc" ; then
-             dnl CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes -DAIO_SUN"
--            CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes"
-+            CFLAGS="$CFLAGS -g -Wall -Wstrict-prototypes -Wmissing-prototypes"
-         else 
-             dnl CFLAGS="$CFLAGS -g -v -DAIO_SUN"
-             CFLAGS="$CFLAGS -g -v"
-         fi
-     else 
-         dnl CFLAGS="$CFLAGS -O -DAIO_SUN"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     if test "$enable_aio" = "no" ; then
-         AC_DEFINE(NO_AIO)
-@@ -605,7 +605,7 @@
-         CFLAGS="$CFLAGS -g"
-     else 
-         dnl CFLAGS="$CFLAGS -O -DNO_FD_IN_AIOCB -DAIO_HANDLE_IN_AIOCB"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     # Check that aio is available (many systems appear to have aio
-     # either installed improperly or turned off).
-@@ -661,9 +661,9 @@
-         CFLAGS="$CFLAGS -g"
-     else 
- 	if test "$CC" = "icc"; then
--           CFLAGS="$CFLAGS -Knoieee -Mvect -O3"
-+           CFLAGS="$CFLAGS -Knoieee -Mvect"
- 	else
--           CFLAGS="$CFLAGS -O"
-+           CFLAGS="$CFLAGS"
-         fi
-     fi
-     AR="ar860 cr$AR_LOCAL"
-@@ -697,9 +697,9 @@
-         CFLAGS="$CFLAGS -g $TFLOP_FLAGS"
-     else
-        if test "$CC" = "pgcc"; then
--           CFLAGS="$CFLAGS -Knoieee -Mvect -O3 $TFLOP_FLAGS"
-+           CFLAGS="$CFLAGS -Knoieee -Mvect $TFLOP_FLAGS"
-        else
--           CFLAGS="$CFLAGS -O $TFLOP_FLAGS"
-+           CFLAGS="$CFLAGS $TFLOP_FLAGS"
-        fi
-     fi
-     AR="xar cr$AR_LOCAL"
-@@ -733,14 +733,14 @@
-     if test $DEBUG = "yes" ; then
- 	if test "$CC" = "gcc" ; then
-             dnl CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes -DNO_AIO"
--            CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes"
-+            CFLAGS="$CFLAGS -g -Wall -Wstrict-prototypes -Wmissing-prototypes"
-         else
- 	    dnl CFLAGS="$CFLAGS -g -DNO_AIO"
- 	    CFLAGS="$CFLAGS -g"
-         fi
-     else 
-         dnl CFLAGS="$CFLAGS -O -DNO_AIO"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     if test "$enable_aio" != "yes" ; then
-         AC_DEFINE(NO_AIO)
-@@ -795,7 +795,7 @@
-     else
-         USER_FFLAGS="$FFLAGS -Chopt"
-         dnl CFLAGS="$CFLAGS -O -DNO_AIO -DSX4"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-         FFLAGS="$FFLAGS -Chopt"
-     fi
-     AC_DEFINE(NO_AIO)
-@@ -820,7 +820,7 @@
-         CFLAGS="$CFLAGS -g +w1"
-     else 
-         dnl CFLAGS="$CFLAGS -O -DNO_AIO"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     AC_DEFINE(NO_AIO)
-     RANLIB=":"
-@@ -898,7 +898,7 @@
-         CFLAGS="$CFLAGS -g -std1 -warnprotos -verbose"
-     else 
-         dnl CFLAGS="$CFLAGS -O -DAIO_PRIORITY_DEFAULT"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     AC_DEFINE(AIO_PRIORITY_DEFAULT)
-     MPI_LIB="$MPI_LIB -laio"
-@@ -930,7 +930,7 @@
-         CFLAGS="$CFLAGS -g"
-     else 
-         dnl CFLAGS="$CFLAGS -O -DNO_AIO"
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-     AC_DEFINE(NO_AIO)
-     RANLIB=":"
-@@ -1001,7 +1001,7 @@
-     if test $DEBUG = "yes"; then
-         CFLAGS="$CFLAGS -g -fullwarn"
-     else 
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-    if test $osversion = 4 ; then
- 	RANLIB="ar ts"
---- mpich-1.2.5/romio/configure.orig	Mon Jan 13 22:55:58 2003
-+++ mpich-1.2.5/romio/configure	Sat Apr  5 11:06:46 2003
-@@ -736,8 +736,8 @@
-     USER_CFLAGS="$CFLAGS -g"
-     USER_FFLAGS="$FFLAGS -g"
- else
--    USER_CFLAGS="$CFLAGS -O"
--    USER_FFLAGS="$FFLAGS -O"
-+    USER_CFLAGS="$CFLAGS"
-+    USER_FFLAGS="$FFLAGS"
- fi
- #
- if test -n "$arch_sun4" ; then 
-@@ -745,12 +745,12 @@
-     F77=${FC:-f77}
-     if test $DEBUG = "yes"; then
- 	if test "$CC" = "gcc"; then
--                      CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes"
-+                      CFLAGS="$CFLAGS -g -Wall -Wstrict-prototypes -Wmissing-prototypes"
- 	else
-                       CFLAGS="$CFLAGS -g"
-         fi
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     if test "$enable_aio" = "no" ; then
-         
-@@ -796,12 +796,12 @@
-     F77=${FC:-f77}
-     if test $DEBUG = "yes"; then
-         if test "$CC" = "gcc" ; then
--                        CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes"
-+                        CFLAGS="$CFLAGS -g -Wall -Wstrict-prototypes -Wmissing-prototypes"
-         else 
-                         CFLAGS="$CFLAGS -g -v"
-         fi
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     if test "$enable_aio" = "no" ; then
-         
-@@ -926,7 +926,7 @@
-     if test $DEBUG = "yes"; then
-                 CFLAGS="$CFLAGS -g"
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     # Check that aio is available (many systems appear to have aio
-     # either installed improperly or turned off).
-@@ -1083,9 +1083,9 @@
-         CFLAGS="$CFLAGS -g"
-     else 
- 	if test "$CC" = "icc"; then
--           CFLAGS="$CFLAGS -Knoieee -Mvect -O3"
-+           CFLAGS="$CFLAGS -Knoieee -Mvect"
- 	else
--           CFLAGS="$CFLAGS -O"
-+           CFLAGS="$CFLAGS"
-         fi
-     fi
-     AR="ar860 cr$AR_LOCAL"
-@@ -1150,9 +1150,9 @@
-         CFLAGS="$CFLAGS -g $TFLOP_FLAGS"
-     else
-        if test "$CC" = "pgcc"; then
--           CFLAGS="$CFLAGS -Knoieee -Mvect -O3 $TFLOP_FLAGS"
-+           CFLAGS="$CFLAGS -Knoieee -Mvect $TFLOP_FLAGS"
-        else
--           CFLAGS="$CFLAGS -O $TFLOP_FLAGS"
-+           CFLAGS="$CFLAGS $TFLOP_FLAGS"
-        fi
-     fi
-     AR="xar cr$AR_LOCAL"
-@@ -1268,12 +1268,12 @@
-     fi
-     if test $DEBUG = "yes" ; then
- 	if test "$CC" = "gcc" ; then
--                        CFLAGS="$CFLAGS -g -O -Wall -Wstrict-prototypes -Wmissing-prototypes"
-+                        CFLAGS="$CFLAGS -g -Wall -Wstrict-prototypes -Wmissing-prototypes"
-         else
- 	    	    CFLAGS="$CFLAGS -g"
-         fi
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     if test "$enable_aio" != "yes" ; then
-         
-@@ -1501,7 +1501,7 @@
-         FFLAGS="$FFLAGS -g"
-     else
-         USER_FFLAGS="$FFLAGS -Chopt"
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-         FFLAGS="$FFLAGS -Chopt"
-     fi
-     
-@@ -1546,7 +1546,7 @@
-     if test $DEBUG = "yes"; then
-                 CFLAGS="$CFLAGS -g +w1"
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     
- {
-@@ -1669,7 +1669,7 @@
-     if test $DEBUG = "yes"; then
-                 CFLAGS="$CFLAGS -g -std1 -warnprotos -verbose"
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     
- {
-@@ -1720,7 +1720,7 @@
-     if test $DEBUG = "yes"; then
-                 CFLAGS="$CFLAGS -g"
-     else 
--                CFLAGS="$CFLAGS -O"
-+                CFLAGS="$CFLAGS"
-     fi
-     
- {
-@@ -2049,7 +2049,7 @@
-     if test $DEBUG = "yes"; then
-         CFLAGS="$CFLAGS -g -fullwarn"
-     else 
--        CFLAGS="$CFLAGS -O"
-+        CFLAGS="$CFLAGS"
-     fi
-    if test $osversion = 4 ; then
- 	RANLIB="ar ts"
