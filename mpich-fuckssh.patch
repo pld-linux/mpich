@@ -1,7 +1,6 @@
-diff -urN mpich-1.2.1/mpid/ch_p4/configure mpich-1.2.1-new/mpid/ch_p4/configure
---- mpich-1.2.1/mpid/ch_p4/configure	Tue Aug 22 21:36:07 2000
-+++ mpich-1.2.1-new/mpid/ch_p4/configure	Tue Mar 20 01:53:37 2001
-@@ -1140,6 +1140,7 @@
+--- mpich-1.2.5/mpid/ch_p4/configure.orig	Fri Oct  4 23:22:22 2002
++++ mpich-1.2.5/mpid/ch_p4/configure	Sat Apr  5 09:46:24 2003
+@@ -1165,6 +1165,7 @@
    ;;
  esac
  fi
@@ -9,13 +8,13 @@ diff -urN mpich-1.2.1/mpid/ch_p4/configure mpich-1.2.1-new/mpid/ch_p4/configure
  RSHCOMMAND="$ac_cv_path_RSHCOMMAND"
  if test -n "$RSHCOMMAND"; then
    echo "$ac_t""$RSHCOMMAND" 1>&1
-@@ -1148,25 +1149,12 @@
+@@ -1173,22 +1174,8 @@
  fi
  
          if test -n "$RSHCOMMAND" ; then
 -	    echo $ac_n "checking whether $RSHCOMMAND works""... $ac_c" 1>&1
--echo "configure:1153: checking whether $RSHCOMMAND works" >&2
--            output=`$RSHCOMMAND $machine -n true 2>&1`
+-echo "configure:1178: checking whether $RSHCOMMAND works" >&2
+-            output=`$RSHCOMMAND $machine -n true 2>&1 </dev/null`
 -            if test -n "$output" ; then
 -		echo "$ac_t""no" 1>&1
 -		echo "Errors while trying to run true on $machine with $program"
@@ -31,6 +30,29 @@ diff -urN mpich-1.2.1/mpid/ch_p4/configure mpich-1.2.1-new/mpid/ch_p4/configure
 -	    fi
          fi
      done
+     # Check ssh with special options to avoid user prompting which causes the
+@@ -1229,25 +1216,11 @@
+ fi
+ 
+     	if test -n "$RSHCOMMAND" ; then
+-    	    echo $ac_n "checking whether $RSHCOMMAND works""... $ac_c" 1>&1
+-echo "configure:1235: checking whether $RSHCOMMAND works" >&2
+-    	    output=`$RSHCOMMAND -o "StrictHostKeyChecking no" \
+-    	      -o "BatchMode yes" $machine -n true 2>&1 </dev/null`
+-    	    if test $? -ne 0 ; then
+-    		echo "$ac_t""no" 1>&1
+-    		echo "Errors while trying to run true on $machine with ssh"
+-    		echo "$output"
+-    		RSHCOMMAND=""
+-    		# HORRIBLE, TERRIBLE BUG in AUTOCONF!!!
+-    		# It is determined to INCORRECTLY remember some results,
+-    		# while forgetting others (like "cross-compiling")
+-    		unset ac_cv_path_RSHCOMMAND
+-    	    else
+     		echo "$ac_t""yes" 1>&1
+-    	    fi
+     	fi
+     fi
  fi
 +set +x
  if test -z "$RSHCOMMAND" ; then

@@ -1,14 +1,14 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl):	Przeno¶na implementacja standardu MPI
 Name:		mpich
-Version:	1.2.1
-Release:	1
+Version:	1.2.5
+%define	pver	1a
+Release:	%{pver}.1
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
-Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}-%{pver}.tar.gz
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
-Patch2:		%{name}-DESTDIR.patch
 URL:		http://www-unix.mcs.anl.gov/mpi/
 BuildRequires:	gcc-g77
 BuildRequires:	libstdc++-devel
@@ -26,10 +26,9 @@ Interface). Zawiera pe³n± implementacjê wersji MPI 1.2 oraz znaczne
 czê¶ci wersji MPI-2, szczególnie w zakresie równoleg³ej komunikacji.
 
 %prep
-%setup  -q
+%setup -q
 %patch0 -p1
 %patch1	-p1
-%patch2 -p1
 
 %build
 # note: can't run autoconf - we must patch configure not only configure.in
@@ -88,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/guide.ps* COPYRIGHT README announce* KnownBugs *MPI-2-C++
+%doc doc/*.ps* COPYRIGHT README KnownBugs
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so*
