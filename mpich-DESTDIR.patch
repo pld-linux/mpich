@@ -169,7 +169,7 @@
  #
 --- mpich-1.2.1/mpe/sbin/mpeinstall.in.orig	Fri Aug 25 17:03:17 2000
 +++ mpich-1.2.1/mpe/sbin/mpeinstall.in	Wed May 30 06:23:17 2001
-@@ -29,12 +29,12 @@
+@@ -29,12 +29,13 @@
  # Installation directories: Default paths (set at configure time)
  prefix=@prefix@
  exec_prefix=@exec_prefix@
@@ -179,6 +179,7 @@
 -sbindir=@sbindir@
 -datadir=@datadir@
 -sysconfdir=@sysconfdir@
++PREFIX=@prefix@
 +includedir=${DESTDIR}@includedir@
 +libdir=${DESTDIR}@libdir@
 +bindir=${DESTDIR}@bindir@
@@ -188,6 +189,17 @@
  
  PROF_LIBNAME=@PROF_LIBNAME@
  CPRP="@CPRP@"
+@@ -83,7 +83,9 @@
+     case "$arg" in
+ 	-prefix=*)
+ 	    prefix=`echo $arg | sed -e 's/-prefix=//g'` 
+-	    prefix_override=1
++	    if [ "$prefix" != "$PREFIX" ]; then
++	    	prefix_override=1
++	    fi
+ 	    ;;
+ 	-uninstall=*)
+ 	    UNINSTALLFILE=`echo A$arg | sed -e 's/A-uninstall=//g'` 
 @@ -345,7 +345,7 @@
  if [ -d $prefix ] ; then
      if [ $verbose = 1 ] ; then echo "using existing directory $prefix" ; fi
@@ -199,19 +211,33 @@
  # echo "prefix = $prefix"
 --- mpich-1.2.1/mpe/viewers/sbin/install-viewers.in.orig	Fri Jul  7 22:59:03 2000
 +++ mpich-1.2.1/mpe/viewers/sbin/install-viewers.in	Wed May 30 06:25:03 2001
-@@ -26,9 +26,9 @@
+@@ -26,9 +26,10 @@
  # Installation directories: Default paths (set at configure time)
  prefix=@prefix@
  exec_prefix=@exec_prefix@
 -bindir=@bindir@
 -sbindir=@sbindir@
 -datadir=@datadir@
++PREFIX=@prefix@
 +bindir=${DESTDIR}@bindir@
 +sbindir=${DESTDIR}@sbindir@
 +datadir=${DESTDIR}@datadir@
  
  # File access mode
  MODE=0664
+@@ -70,8 +70,10 @@
+     case "$arg" in
+         -prefix=*)
+             prefix=`echo $arg | sed -e 's/-prefix=//'`
+-            prefix_override=1
+-            ;;
++	    if [ "$prefix" != "$PREFIX" ]; then
++                prefix_override=1
++	    fi
++	    ;;
+         -uninstall=*)
+             UNINSTALLFILE=`echo A$arg | sed -e 's/A-uninstall=//g'`
+ 	    appendUninstall=1
 @@ -333,7 +333,7 @@
  if [ -d $prefix ] ; then
      if [ $verbose = 1 ] ; then echo "using existing directory $prefix" ; fi
