@@ -1,12 +1,12 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl):	Przeno¶na implementacja standardu MPI
 Name:		mpich
-Version:	1.2.5.2
+Version:	1.2.5.3
 Release:	1
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.gz
-# Source0-md5:	9a7524c220eeb3f080069308bab9f487
+# Source0-md5:	737e84251a238e9b663e2d6c2b681466
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
 Patch2:		http://squishy.monkeysoft.net/mpich/%{name}-1.2.5-oM.patch
@@ -29,8 +29,8 @@ czê¶ci wersji MPI-2, szczególnie w zakresie równoleg³ej komunikacji.
 %prep
 %setup -q
 %patch0 -p1
-%patch1	-p1
-%patch2	-p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 # note: can't run autoconf - we must patch configure not only configure.in
@@ -94,9 +94,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so*
 %{_libdir}/lib*.a
-%{_sysconfdir}/*
-%{_includedir}/*
+%{_libdir}/mpe_prof.o
+%{_sysconfdir}/mpichversion.c
+%{_sysconfdir}/mpichconf.h.dat
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mpi*.conf
+%{_includedir}/*.h
+%{_includedir}/mpi2c++
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 %{_datadir}/mpich
+%{_datadir}/upshot
 %{_examplesdir}/%{name}-%{version}
