@@ -103,7 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/mpe_prof.o
 %{_sysconfdir}/mpichversion.c
 %{_sysconfdir}/mpichconf.h.dat
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/mpi*.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/mpi*.conf
 %{_includedir}/*.h
 %{_includedir}/mpi2c++
 %{_mandir}/man1/*
