@@ -2,7 +2,7 @@ Summary:	Portable MPI Model Implementation
 Summary(pl):	Przeno¶na implementacja standardu MPI
 Name:		mpich
 Version:	1.2.6
-Release:	1
+Release:	2
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
@@ -13,6 +13,7 @@ Patch2:		http://squishy.monkeysoft.net/mpich/%{name}-1.2.5-oM.patch
 URL:		http://www-unix.mcs.anl.gov/mpi/
 BuildRequires:	gcc-g77
 BuildRequires:	libstdc++-devel
+Provides:	mpi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
