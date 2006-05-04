@@ -1,18 +1,19 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl):	Przeno¶na implementacja standardu MPI
 Name:		mpich
-Version:	1.2.5.3
-Release:	1
+Version:	1.2.6
+Release:	2
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
-Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.gz
-# Source0-md5:	737e84251a238e9b663e2d6c2b681466
+Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
+# Source0-md5:	4c4e2bc23b5f1b73b577bc630f782913
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
 Patch2:		http://squishy.monkeysoft.net/mpich/%{name}-1.2.5-oM.patch
 URL:		http://www-unix.mcs.anl.gov/mpi/
 BuildRequires:	gcc-g77
 BuildRequires:	libstdc++-devel
+Provides:	mpi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,13 +37,19 @@ czê¶ci wersji MPI-2, szczególnie w zakresie równoleg³ej komunikacji.
 # note: can't run autoconf - we must patch configure not only configure.in
 # also, don't change it to %%configure - it won't work
 # no configure options for sysconfdir and messagecat_dir :/
-sysconfdir=%{_sysconfdir} messagecat_dir=%{_libdir} \
+sysconfdir=%{_sysconfdir} \
+messagecat_dir=%{_libdir} \
 ./configure \
-	--prefix=%{_prefix} --exec_prefix=%{_prefix} \
-	--includedir=%{_includedir} --sharedlib=%{_libdir} \
-	--libdir=%{_libdir} --datadir=%{_datadir}/%{name} \
-	--bindir=%{_bindir} --sbindir=%{_sbindir} \
-	--mandir=%{_mandir} --docdir=%{_docdir} \
+	--prefix=%{_prefix} \
+	--exec_prefix=%{_prefix} \
+	--includedir=%{_includedir} \
+	--sharedlib=%{_libdir} \
+	--libdir=%{_libdir} \
+	--datadir=%{_datadir}/%{name} \
+	--bindir=%{_bindir} \
+	--sbindir=%{_sbindir} \
+	--mandir=%{_mandir} \
+	--docdir=%{_docdir} \
 	-opt="%{rpmcflags}"
 
 %{__make}
@@ -103,5 +110,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 %{_datadir}/mpich
-%{_datadir}/upshot
 %{_examplesdir}/%{name}-%{version}
