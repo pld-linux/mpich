@@ -1,5 +1,5 @@
 Summary:	Portable MPI Model Implementation
-Summary(pl):	Przeno¶na implementacja standardu MPI
+Summary(pl.UTF-8):   PrzenoÅ›na implementacja standardu MPI
 Name:		mpich
 Version:	1.2.6
 Release:	3
@@ -23,10 +23,10 @@ Message-Passing Interface Standard. It contains a complete
 implementation of version 1.2 of the MPI Standard and also significant
 parts of MPI-2, particularly in the area of parallel I/O.
 
-%description -l pl
-MPICH jest wolnodostêpn± implementacj± standardu MPI (Message-Passing
-Interface). Zawiera pe³n± implementacjê wersji MPI 1.2 oraz znaczne
-czê¶ci wersji MPI-2, szczególnie w zakresie równoleg³ej komunikacji.
+%description -l pl.UTF-8
+MPICH jest wolnodostÄ™pnÄ… implementacjÄ… standardu MPI (Message-Passing
+Interface). Zawiera peÅ‚nÄ… implementacjÄ™ wersji MPI 1.2 oraz znaczne
+czÄ™Å›ci wersji MPI-2, szczegÃ³lnie w zakresie rÃ³wnolegÅ‚ej komunikacji.
 
 %prep
 %setup -q
