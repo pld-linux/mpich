@@ -1,5 +1,5 @@
 Summary:	Portable MPI Model Implementation
-Summary(pl.UTF-8):   Przenośna implementacja standardu MPI
+Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
 Version:	1.2.6
 Release:	3
