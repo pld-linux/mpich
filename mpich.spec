@@ -66,14 +66,6 @@ rm -rf $RPM_BUILD_ROOT
 DESTDIR=$RPM_BUILD_ROOT ; export DESTDIR
 %{__make} install
 
-# fix symlinks
-(cd $RPM_BUILD_ROOT%{_libdir}
-rm -f libfmpich.so libmpich.so libpmpich.so
-ln -sf libfmpich.so.*.* libfmpich.so
-ln -sf libmpich.so.*.* libmpich.so
-ln -sf libpmpich.so.*.* libpmpich.so
-)
-
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 mv -f $RPM_BUILD_ROOT%{_prefix}/examples/* \
 	$RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
