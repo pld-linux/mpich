@@ -1,12 +1,12 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
-Version:	1.2.6
-Release:	3
+Version:	1.2.7p1
+Release:	1
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
-# Source0-md5:	4c4e2bc23b5f1b73b577bc630f782913
+# Source0-md5:	4fc0f20bddfbd5061a11047cf2d17d31
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
 Patch2:		http://squishy.monkeysoft.net/mpich/%{name}-1.2.5-oM.patch
@@ -92,6 +92,8 @@ done
 for f in HISTORY LICENSE README TODO ; do
 	mv -f MPI-2-C++/$f $f.MPI-2-C++
 done
+
+rm -rf $RPM_BUILD_ROOT%{_prefix}/{doc,logfiles,www}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
