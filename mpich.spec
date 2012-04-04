@@ -2,7 +2,7 @@ Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
 Version:	1.2.7p1
-Release:	3
+Release:	4
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
@@ -60,14 +60,14 @@ messagecat_dir=%{_libdir} \
 	-opt="%{rpmcflags} -fPIC -DPIC" \
 	-fc=gfortran
 
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 # really awful
 DESTDIR=$RPM_BUILD_ROOT ; export DESTDIR
-%{__make} install
+%{__make} -j1 install
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 mv -f $RPM_BUILD_ROOT%{_prefix}/examples/* \
