@@ -2,7 +2,7 @@ Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
 Version:	1.2.7p1
-Release:	2
+Release:	3
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
@@ -10,6 +10,7 @@ Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-fuckssh.patch
 Patch1:		%{name}-opt.patch
 Patch2:		http://squishy.monkeysoft.net/mpich/%{name}-1.2.5-oM.patch
+Patch3:		mpich-c++.patch
 URL:		http://www-unix.mcs.anl.gov/mpi/
 BuildRequires:	gcc-g77
 BuildRequires:	libstdc++-devel
@@ -33,6 +34,7 @@ części wersji MPI-2, szczególnie w zakresie równoległej komunikacji.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 sed -i -e 's|RCPCOMMAND-rcp|RCPCOMMAND-scp|' mpid/ch_p4/mpirun.ch_p4.in
 
@@ -55,7 +57,8 @@ messagecat_dir=%{_libdir} \
 	--sbindir=%{_sbindir} \
 	--mandir=%{_mandir} \
 	--docdir=%{_docdir} \
-	-opt="%{rpmcflags} -fPIC"
+	-opt="%{rpmcflags} -fPIC -DPIC" \
+	-fc=gfortran
 
 %{__make}
 
