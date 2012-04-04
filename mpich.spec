@@ -2,7 +2,7 @@ Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
 Version:	1.2.7p1
-Release:	1
+Release:	2
 License:	Open source (MPICH), BSD-like (MPI-2-C++)
 Group:		Development/Libraries
 Source0:	ftp://ftp.mcs.anl.gov/pub/mpi/%{name}-%{version}.tar.bz2
@@ -55,7 +55,7 @@ messagecat_dir=%{_libdir} \
 	--sbindir=%{_sbindir} \
 	--mandir=%{_mandir} \
 	--docdir=%{_docdir} \
-	-opt="%{rpmcflags}"
+	-opt="%{rpmcflags} -fPIC"
 
 %{__make}
 
