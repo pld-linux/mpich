@@ -1,0 +1,13 @@
+--- mpich-3.1.3/configure.ac.orig	2014-10-07 23:50:23.000000000 +0200
++++ mpich-3.1.3/configure.ac	2014-11-22 17:11:16.917471496 +0100
+@@ -117,8 +117,8 @@
+         [http://www.mpich.org/])
+ 
+ if test "x$prefix" != "xNONE" && test -d "$prefix"; then 
+-    if test "x`(cd \"$prefix\"; echo \"$PWD\")`" = "x`(cd \"$srcdir\"; echo \"$PWD\")`" ||\
+-       test "x`(cd \"$prefix\"; echo \"$PWD\")`" = "x$PWD"  ; then
++    if test "x$( (cd "$prefix"; pwd) )" = "x$( (cd "$srcdir"; pwd) )" ||\
++       test "x$$ (cd "$prefix"; pwd) )" = "x$(pwd)"  ; then
+         AC_MSG_ERROR([The install directory (--prefix=) cannot be the same as the build or src directory.])
+     fi
+ fi         
