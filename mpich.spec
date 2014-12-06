@@ -48,6 +48,7 @@ Summary:	MPICH header files and development tools
 Summary(pl.UTF-8):	Pliki nagłówkowe oraz narzędzia programistyczne MPICH
 Group:		Development
 Requires:	%{name} = %{version}-%{release}
+Provides:	mpi-devel
 
 %description devel
 MPICH header files and development tools.
@@ -60,6 +61,7 @@ Summary:	MPICH static libraries
 Summary(pl.UTF-8):	Biblioteki statyczne MPICH
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Provides:	mpi-static
 
 %description static
 MPICH static libraries.
