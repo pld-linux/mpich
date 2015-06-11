@@ -1,0 +1,29 @@
+--- mpich-3.1.orig/configure.ac
++++ mpich-3.1/configure.ac
+@@ -4434,7 +4434,7 @@ long int oldval = 10;
+ long int newval = 20;
+ char ret;
+ long int readval;
+-__asm__ __volatile__ ("lock; cmpxchgl %3, %1; sete %0"
++__asm__ __volatile__ ("push %%ecx; pop %%ecx; lock; cmpxchgl %3, %1; sete %0"
+ 	: "=q" (ret), "=m" (*p), "=a" (readval)
+ 	: "r" (newval), "m" (*p), "a" (oldval) : "memory");
+ return (compval == 20) ? 0 : -1;
+@@ -4454,12 +4454,12 @@ AC_MSG_CHECKING([for gcc __asm__ and AMD
+ AC_TRY_RUN([
+ int main(int argc, char *argv[])
+ {
+-long int compval = 10;
+-volatile long int *p = &compval;
+-long int oldval = 10;
+-long int newval = 20;
++long long int compval = 10;
++volatile long long int *p = &compval;
++long long int oldval = 10;
++long long int newval = 20;
+ char ret;
+-long int readval;
++long long int readval;
+ __asm__ __volatile__ ("lock; cmpxchgq %3, %1; sete %0"
+ 	: "=q" (ret), "=m" (*p), "=a" (readval)
+ 	: "r" (newval), "m" (*p), "a" (oldval) : "memory");
