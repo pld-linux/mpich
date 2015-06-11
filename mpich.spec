@@ -2,7 +2,7 @@ Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
 Version:	3.1.3
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Development/Libraries
 Source0:	http://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
@@ -12,7 +12,6 @@ Patch1:		%{name}-opalink.patch
 URL:		http://www.mpich.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.12.3
-BuildRequires:	blcr-devel
 BuildRequires:	ftb-devel
 BuildRequires:	gcc-fortran
 BuildRequires:	hwloc-devel >= 1.9.0
