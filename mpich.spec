@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_with	blcr	# blcr application checkpointing support (no support for recent kernels)
+#
 Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
@@ -13,6 +17,7 @@ Patch2:		x32-misdetected-as-i386.patch
 URL:		http://www.mpich.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.12.3
+%{?with_blcr:BuildRequires:	blcr-devel}
 BuildRequires:	ftb-devel
 BuildRequires:	gcc-fortran
 BuildRequires:	hwloc-devel >= 1.9.0
@@ -83,7 +88,9 @@ Biblioteki statyczne MPICH.
 %{__automake}
 %configure \
 	--disable-silent-rules \
+	%{?with_blcr:--enable-checkpointing} \
 	--with-hwloc-prefix=system \
+	%{!?with_blcr:--with-hydra-ckpointlib=none} \
 	--with-openpa-prefix=system
 
 %{__make}
