@@ -1,3 +1,4 @@
+# TODO: separate fortran lib/tools? c++ too?
 #
 # Conditional build:
 %bcond_with	blcr	# blcr application checkpointing support (no support for recent kernels)
@@ -5,16 +6,15 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
-Version:	3.1.3
-Release:	3
+Version:	3.1.4
+Release:	1
 License:	BSD-like
 Group:		Development/Libraries
-Source0:	http://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	93cb17f91ac758cbf9174ecb03563778
+Source0:	https://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	2ab544607986486562e076b83937bba2
 Patch0:		%{name}-sh.patch
-Patch1:		%{name}-opalink.patch
-Patch2:		x32-misdetected-as-i386.patch
-URL:		http://www.mpich.org/
+Patch1:		x32-misdetected-as-i386.patch
+URL:		https://www.mpich.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.12.3
 %{?with_blcr:BuildRequires:	blcr-devel}
@@ -53,6 +53,9 @@ Summary:	MPICH header files and development tools
 Summary(pl.UTF-8):	Pliki nagłówkowe oraz narzędzia programistyczne MPICH
 Group:		Development
 Requires:	%{name} = %{version}-%{release}
+Requires:	gcc-fortran
+Requires:	libstdc++-devel
+Requires:	openpa-devel
 Provides:	mpi-devel
 
 %description devel
@@ -78,7 +81,6 @@ Biblioteki statyczne MPICH.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__libtoolize}
