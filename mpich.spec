@@ -5,26 +5,26 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
-Version:	3.1.3
-Release:	3
+Version:	3.3.2
+Release:	1
 License:	BSD-like
 Group:		Development/Libraries
-Source0:	http://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	93cb17f91ac758cbf9174ecb03563778
+Source0:	https://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	2d680f620583beadd7a08acdcfe355e6
 Patch0:		%{name}-sh.patch
 Patch1:		%{name}-opalink.patch
 Patch2:		x32-misdetected-as-i386.patch
-URL:		http://www.mpich.org/
+URL:		https://www.mpich.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.12.3
 %{?with_blcr:BuildRequires:	blcr-devel}
 BuildRequires:	ftb-devel
 BuildRequires:	gcc-fortran
-BuildRequires:	hwloc-devel >= 1.9.0
+BuildRequires:	hwloc-devel >= 2.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	openpa-devel
-Requires:	hwloc-libs >= 1.9.0
+Requires:	hwloc-libs >= 2.0.0
 Provides:	mpi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -77,12 +77,12 @@ Biblioteki statyczne MPICH.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
+#patch1 -p1
+#patch2 -p1
 
 %build
 %{__libtoolize}
-%{__aclocal} -I confdb
+%{__aclocal} -I confdb -I src/hwloc/config
 %{__autoconf}
 %{__autoheader}
 %{__automake}
