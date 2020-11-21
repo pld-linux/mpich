@@ -89,7 +89,7 @@ Biblioteki statyczne MPICH.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%define	gfortran_version	%(%{gfortran} -dumpversion)
+%define	gfortran_version	%(gfortran -dumpversion)
 %if "%{_ver_ge '%{gfortran_version}' '10.0'}" == "1"
 FFLAGS="%{rpmcflags} -fallow-argument-mismatch"
 FCFLAGS="%{rpmcflags} -fallow-argument-mismatch"
