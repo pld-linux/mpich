@@ -24,6 +24,7 @@ BuildRequires:	hwloc-devel >= 1.9.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	openpa-devel
+BuildRequires:	rpmbuild(macros) >= 1.750
 Requires:	hwloc-libs >= 1.9.0
 Provides:	mpi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -88,6 +89,11 @@ Biblioteki statyczne MPICH.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
+%define	gfortran_version	%(%{gfortran} -dumpversion)
+%if "%{_ver_ge '%{gfortran_version}' '10.0'}" == "1"
+FFLAGS="%{rpmcflags} -fallow-argument-mismatch"
+FCFLAGS="%{rpmcflags} -fallow-argument-mismatch"
+%endif
 %configure \
 	--disable-silent-rules \
 	%{?with_blcr:--enable-checkpointing} \
