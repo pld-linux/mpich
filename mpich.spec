@@ -5,12 +5,12 @@
 Summary:	Portable MPI Model Implementation
 Summary(pl.UTF-8):	Przenośna implementacja standardu MPI
 Name:		mpich
-Version:	3.1.4
-Release:	1
+Version:	5.0.1
+Release:	0.1
 License:	BSD-like
 Group:		Development/Libraries
 Source0:	https://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	2ab544607986486562e076b83937bba2
+# Source0-md5:	d6a8c0f6c8225e2d1bd7a9f88320bdb3
 Patch0:		%{name}-sh.patch
 Patch1:		x32-misdetected-as-i386.patch
 URL:		https://www.mpich.org/
@@ -159,8 +159,8 @@ Biblioteka statyczna MPICH dla Fortranu.
 
 %prep
 %setup -q
-%patch -P0 -p1
-%patch -P1 -p1
+#p%atch -P0 -p1
+#patch -P1 -p1
 
 %build
 %{__libtoolize}
