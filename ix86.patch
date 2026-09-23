@@ -1,0 +1,68 @@
+diff -ur mpich-5.0.1/modules/libfabric/prov/psm3/inc/ofi_cma.h mpich-5.0.1.ix86/modules/libfabric/prov/psm3/inc/ofi_cma.h
+--- mpich-5.0.1/modules/libfabric/prov/psm3/inc/ofi_cma.h	2025-09-23 18:08:14.000000000 +0200
++++ mpich-5.0.1.ix86/modules/libfabric/prov/psm3/inc/ofi_cma.h	2026-09-23 23:46:37.971488812 +0200
+@@ -64,8 +64,8 @@
+ 		if (!total)
+ 			return FI_SUCCESS;
+ 
+-		ofi_consume_iov(local, &local_cnt, (size_t) ret);
+-		ofi_consume_iov(remote, &remote_cnt, (size_t) ret);
++		ofi_consume_iov(local, (size_t *)&local_cnt, (size_t) ret);
++		ofi_consume_iov(remote, (size_t *)&remote_cnt, (size_t) ret);
+ 	}
+ }
+ 
+diff -ur mpich-5.0.1/modules/libfabric/prov/psm3/psm3/psm_mq_internal.h mpich-5.0.1.ix86/modules/libfabric/prov/psm3/psm3/psm_mq_internal.h
+--- mpich-5.0.1/modules/libfabric/prov/psm3/psm3/psm_mq_internal.h	2025-09-23 18:08:14.000000000 +0200
++++ mpich-5.0.1.ix86/modules/libfabric/prov/psm3/psm3/psm_mq_internal.h	2026-09-24 00:16:49.346999220 +0200
+@@ -409,10 +409,12 @@
+ hash_src_tag(psm2_epaddr_t src, psm2_mq_tag_t *tagsel, psm2_mq_tag_t *tag))
+ {
+ 	// hash on middle bits of src, these will vary the most
+-#if 0
++#if 1
+ 	//uint32_t res = _mm_crc32_u64(0, (uint64_t)(uintptr_t)src);
+ 	uint32_t res = _mm_crc32_u32(0, (uint32_t)((uintptr_t)src>>6));
+-	res = _mm_crc32_u64(res, tag->tag64 & tagsel->tag64);
++	res = _mm_crc32_u32(res, (uint32_t)(tag->tag64 >> 32) & (uint32_t)(tagsel->tag64 >> 32));
++	res = _mm_crc32_u32(res, (uint32_t)(tag->tag64 & 0xffff) & (uint32_t)(tagsel->tag64 & 0xffff));
++	res = _mm_crc32_u32(res, tag->tag64 & tagsel->tag64);
+ 	return _mm_crc32_u32(res, tag->rem32 & tagsel->rem32);
+ #else
+ 	// this computes 2x faster than above
+diff -ur mpich-5.0.1/modules/libfabric/prov/shm/src/smr_ep.c mpich-5.0.1.ix86/modules/libfabric/prov/shm/src/smr_ep.c
+--- mpich-5.0.1/modules/libfabric/prov/shm/src/smr_ep.c	2025-09-23 18:08:14.000000000 +0200
++++ mpich-5.0.1.ix86/modules/libfabric/prov/shm/src/smr_ep.c	2026-09-23 23:50:44.510605822 +0200
+@@ -349,7 +349,7 @@
+ 	cmd->msg.data.ipc_info.device = device;
+ 	ret = ofi_hmem_get_base_addr(cmd->msg.data.ipc_info.iface, ptr, len,
+ 				     &base,
+-				     &cmd->msg.data.ipc_info.base_length);
++				     (size_t *)&cmd->msg.data.ipc_info.base_length);
+ 	if (ret)
+ 		return ret;
+ 
+diff -ur mpich-5.0.1/modules/libfabric/prov/sm2/src/sm2_ep.c mpich-5.0.1.ix86/modules/libfabric/prov/sm2/src/sm2_ep.c
+--- mpich-5.0.1/modules/libfabric/prov/sm2/src/sm2_ep.c	2025-09-23 18:08:14.000000000 +0200
++++ mpich-5.0.1.ix86/modules/libfabric/prov/sm2/src/sm2_ep.c	2026-09-23 23:52:11.090297228 +0200
+@@ -261,7 +261,7 @@
+ 	ipc_info->device = device;
+ 
+ 	ret = ofi_hmem_get_base_addr(ipc_info->iface, ptr, len, &base,
+-				     &ipc_info->base_length);
++				     (size_t *)&ipc_info->base_length);
+ 	if (ret)
+ 		return ret;
+ 
+diff -ur mpich-5.0.1/modules/libfabric/prov/sm2/src/sm2_progress.c mpich-5.0.1.ix86/modules/libfabric/prov/sm2/src/sm2_progress.c
+--- mpich-5.0.1/modules/libfabric/prov/sm2/src/sm2_progress.c	2025-09-23 18:08:14.000000000 +0200
++++ mpich-5.0.1.ix86/modules/libfabric/prov/sm2/src/sm2_progress.c	2026-09-23 23:51:40.187073972 +0200
+@@ -73,7 +73,7 @@
+ 
+ 	ret = ofi_hmem_get_base_addr(ipc_info->iface, device_ptr,
+ 				     xfer_entry->hdr.size, &base,
+-				     &ipc_info->base_length);
++				     (size_t *)&ipc_info->base_length);
+ 	if (ret) {
+ 		FI_WARN(&sm2_prov, FI_LOG_EP_CTRL,
+ 			"Failed to get device memory base address. Error code: "

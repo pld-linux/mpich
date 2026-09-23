@@ -11,8 +11,7 @@ License:	BSD-like
 Group:		Development/Libraries
 Source0:	https://www.mpich.org/static/downloads/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	d6a8c0f6c8225e2d1bd7a9f88320bdb3
-Patch0:		%{name}-sh.patch
-Patch1:		x32-misdetected-as-i386.patch
+Patch0:		ix86.patch
 URL:		https://www.mpich.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.12.3
@@ -159,8 +158,7 @@ Biblioteka statyczna MPICH dla Fortranu.
 
 %prep
 %setup -q
-#p%atch -P0 -p1
-#patch -P1 -p1
+%patch -P0 -p1
 
 %build
 %{__libtoolize}
@@ -168,11 +166,6 @@ Biblioteka statyczna MPICH dla Fortranu.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%define	gfortran_version	%(gfortran -dumpversion)
-%if "%{_ver_ge '%{gfortran_version}' '10.0'}" == "1"
-FFLAGS="%{rpmcflags} -fallow-argument-mismatch"
-FCFLAGS="%{rpmcflags} -fallow-argument-mismatch"
-%endif
 %configure \
 	--disable-silent-rules \
 	%{?with_blcr:--enable-checkpointing} \
